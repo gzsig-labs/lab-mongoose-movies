@@ -23,9 +23,26 @@ router.get('/celebrities', (req, res) => {
           }
         )
     res.render("celebrities/index",{prettyCeleb})
-    // res.json(prettyCeleb)
   }
   )
+});
+
+router.get('/celebrities/:id', (req, res) =>{
+  const {id} = req.params
+    CelebrityModel
+      .findOne( { _id: id } )
+      .then(
+        celeb => {
+          const prettyCeleb = {
+            id: celeb.id,
+            name: celeb.name,
+            occupation: celeb.occupation,
+            catchPhrase: celeb.catchPhrase
+          }
+        res.render('celebrities/show', prettyCeleb)
+        }
+      )
+      .catch(err => {res.send(err)})
 });
 
 module.exports = router;
